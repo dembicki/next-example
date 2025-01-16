@@ -1,114 +1,120 @@
+import { FC } from "react";
 import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+interface Product {
+  id: number;
+  title: string;
+  description: string;
+  category: string;
+  price: number;
+  brand: string;
+  sku: string;
+  thumbnail: string;
+}
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+interface PageProps {
+  products?: Product[];
+}
 
-export default function Home() {
+const Home: FC<PageProps> = ({ products }) => {
   return (
-    <div
-      className={`${geistSans.variable} ${geistMono.variable} grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]`}
-    >
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/pages/index.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <main className="flex justify-center items-center p-6">
+      <div className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
+        <h1 className="text-3xl font-bold mx-auto">Products</h1>
+        <div className="overflow-x-auto">
+          <table className="min-w-full border-collapse bg-white shadow-sm rounded-lg">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  ID
+                </th>
+                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Thumbnail
+                </th>
+                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Title
+                </th>
+                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Description
+                </th>
+                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Category
+                </th>
+                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Price
+                </th>
+                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Brand
+                </th>
+                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Sku
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {products?.map((product) => (
+                <tr key={product.id} className="hover:bg-gray-50">
+                  <td className="px-3 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {product.id}
+                  </td>
+                  <td className="px-3 py-4 whitespace-nowrap">
+                    <Image
+                      src={product.thumbnail}
+                      alt={product.title}
+                      width={50}
+                      height={50}
+                      className="rounded-md"
+                    />
+                  </td>
+                  <td className="px-3 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {product.title}
+                  </td>
+                  <td className="px-3 py-4 text-sm text-gray-500 max-w-xs truncate">
+                    {product.description}
+                  </td>
+                  <td className="px-3 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {product.category}
+                  </td>
+                  <td className="px-3 py-4 whitespace-nowrap text-sm text-gray-500">
+                    ${product.price}
+                  </td>
+                  <td className="px-3 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {product.brand}
+                  </td>
+                  <td className="px-3 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {product.sku}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </div>
+    </main>
   );
+};
+
+export default Home;
+
+export async function getServerSideProps() {
+  const getProducts = async (): Promise<Product[]> => {
+    const API_URL = "https://dummyjson.com/products";
+    const params = new URLSearchParams({
+      limit: "15",
+    });
+
+    try {
+      const response = await fetch(`${API_URL}?${params.toString()}`);
+      const { products } = await response.json();
+      return products;
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  };
+
+  const products = await getProducts();
+  return {
+    props: { products },
+  };
 }
